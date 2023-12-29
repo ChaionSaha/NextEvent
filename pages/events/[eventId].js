@@ -1,3 +1,4 @@
+import EventContent from '@/components/event-details/EventContent';
 import EventLogistics from '@/components/event-details/EventLogistics';
 import EventSummary from '@/components/event-details/EventSummary';
 import { getEventById } from '@/dummy-data';
@@ -8,7 +9,6 @@ function EventDetails() {
 	const { eventId } = router.query;
 
 	const event = getEventById(eventId)[0];
-	console.log(event);
 	if (!event) return <p>No event found!</p>;
 
 	return (
@@ -20,6 +20,7 @@ function EventDetails() {
 				date={event.date}
 				location={event.location}
 			/>
+			<EventContent content={event.description} />
 		</div>
 	);
 }

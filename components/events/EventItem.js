@@ -8,7 +8,7 @@ const EventItem = ({ title, location, date, image, id }) => {
 		year: 'numeric',
 	});
 	return (
-		<div className='flex overflow-hidden bg-white rounded-xl '>
+		<div className='flex overflow-hidden bg-white shadow-lg rounded-xl'>
 			<img
 				src={image}
 				alt={title}

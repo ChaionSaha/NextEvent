@@ -1,5 +1,13 @@
+import EventList from '@/components/events/EventList';
+import { getAllEvents } from '@/dummy-data';
+
 function EventsPage() {
-	return <div>This is events page.</div>;
+	const events = getAllEvents();
+	return (
+		<div className='container py-10'>
+			<EventList events={events} />
+		</div>
+	);
 }
 
 export default EventsPage;
