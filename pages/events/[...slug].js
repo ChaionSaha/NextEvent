@@ -20,8 +20,10 @@ function CustomEvents() {
 		month > 12
 	)
 		return (
-			<div className='container w-[50%] py-10 text-center rounded-xl bg-red-100 text-xl text-red-800 my-10'>
-				Invalid search.
+			<div className='container lg:w-[50%]  px-5 lg:px-0'>
+				<div className='w-full py-10 my-10 text-xl text-center text-red-800 bg-red-100 rounded-xl'>
+					Invalid search.
+				</div>
 			</div>
 		);
 
@@ -29,13 +31,15 @@ function CustomEvents() {
 
 	if (events.length === 0)
 		return (
-			<div className='container w-[50%] py-10 text-center rounded-xl border text-green-800 border-red-100 bg-base-100 text-xl my-10'>
-				No Events found on that specified date.
+			<div className='container lg:w-[50%] px-5 lg:px-0 my-10'>
+				<div className='w-full py-10 text-xl text-center text-green-800 border border-red-100 rounded-xl bg-base-100'>
+					No Events found on that specified date.
+				</div>
 			</div>
 		);
 
 	return (
-		<div className='container py-10'>
+		<div className='container px-5 py-10 lg:px-0'>
 			<EventList events={events} />
 		</div>
 	);
