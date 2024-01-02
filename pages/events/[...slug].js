@@ -1,15 +1,40 @@
 import EventList from '@/components/events/EventList';
-import { getFilteredEvents } from '@/dummy-data';
-import { useRouter } from 'next/router';
+import CustomHead from '@/components/shared/head';
+import { getFilteredEvents } from '@/helpers/api-utils';
 
-function CustomEvents() {
-	const router = useRouter();
-	const { slug } = router.query;
-	let year, month;
-	if (slug) {
-		year = +slug[0];
-		month = +slug[1];
-	}
+function CustomEvents({ hasError, events }) {
+	if (hasError)
+		return (
+			<div className='container lg:w-[50%]  px-5 lg:px-0'>
+				<CustomHead title='Invalid Search' />
+				<div className='w-full py-10 my-10 text-xl text-center text-red-800 bg-red-100 rounded-xl'>
+					Invalid search.
+				</div>
+			</div>
+		);
+
+	if (events.length === 0)
+		return (
+			<div className='container lg:w-[50%] px-5 lg:px-0 my-10'>
+				<CustomHead title='No events' />
+				<div className='w-full py-10 text-xl text-center text-green-800 border border-red-100 rounded-xl bg-base-100'>
+					No Events found on that specified date.
+				</div>
+			</div>
+		);
+
+	return (
+		<div className='container px-5 py-10 lg:px-0'>
+			<CustomHead title='Filtered Events' />
+			<EventList events={events} />
+		</div>
+	);
+}
+
+export default CustomEvents;
+
+export async function getServerSideProps({ params }) {
+	const [year, month] = params.slug;
 
 	if (
 		isNaN(year) ||
@@ -19,30 +44,17 @@ function CustomEvents() {
 		month < 1 ||
 		month > 12
 	)
-		return (
-			<div className='container lg:w-[50%]  px-5 lg:px-0'>
-				<div className='w-full py-10 my-10 text-xl text-center text-red-800 bg-red-100 rounded-xl'>
-					Invalid search.
-				</div>
-			</div>
-		);
+		return {
+			props: {
+				hasError: true,
+			},
+		};
 
-	const events = getFilteredEvents({ year, month });
-
-	if (events.length === 0)
-		return (
-			<div className='container lg:w-[50%] px-5 lg:px-0 my-10'>
-				<div className='w-full py-10 text-xl text-center text-green-800 border border-red-100 rounded-xl bg-base-100'>
-					No Events found on that specified date.
-				</div>
-			</div>
-		);
-
-	return (
-		<div className='container px-5 py-10 lg:px-0'>
-			<EventList events={events} />
-		</div>
-	);
+	const events = await getFilteredEvents({ year, month });
+	console.log(events);
+	return {
+		props: {
+			events: events,
+		},
+	};
 }
-
-export default CustomEvents;

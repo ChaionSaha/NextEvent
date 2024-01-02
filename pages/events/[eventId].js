@@ -1,18 +1,15 @@
 import EventContent from '@/components/event-details/EventContent';
 import EventLogistics from '@/components/event-details/EventLogistics';
 import EventSummary from '@/components/event-details/EventSummary';
-import { getEventById } from '@/dummy-data';
-import { useRouter } from 'next/router';
+import CustomHead from '@/components/shared/head';
+import { getEventById } from '@/helpers/api-utils';
 
-function EventDetails() {
-	const router = useRouter();
-	const { eventId } = router.query;
-
-	const event = getEventById(eventId)[0];
+function EventDetails({ event }) {
 	if (!event) return <p>No event found!</p>;
 
 	return (
 		<div className='h-[90vh]'>
+			<CustomHead title={event.title} />
 			<EventSummary title={event.title} />
 			<EventLogistics
 				img={event.image}
@@ -26,3 +23,13 @@ function EventDetails() {
 }
 
 export default EventDetails;
+
+export async function getServerSideProps({ params }) {
+	const event = await getEventById(params.eventId);
+
+	return {
+		props: {
+			event: event[0],
+		},
+	};
+}
