@@ -1,4 +1,5 @@
 import EventList from '@/components/events/EventList';
+import Newsletter from '@/components/newsletter/newsletter';
 import CustomHead from '@/components/shared/head';
 import { getFetauredEvents } from '@/helpers/api-utils';
 
@@ -8,6 +9,7 @@ function HomePage({ events }) {
 		<div className='container px-5 py-10 lg:px-0'>
 			<CustomHead title='Featured Events' />
 			<EventList events={events} />
+			<Newsletter />
 		</div>
 	);
 }

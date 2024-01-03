@@ -1,3 +1,4 @@
+import AllComments from '@/components/comments/all-comments';
 import EventContent from '@/components/event-details/EventContent';
 import EventLogistics from '@/components/event-details/EventLogistics';
 import EventSummary from '@/components/event-details/EventSummary';
@@ -8,7 +9,7 @@ function EventDetails({ event }) {
 	if (!event) return <p>No event found!</p>;
 
 	return (
-		<div className='h-[90vh]'>
+		<div className=''>
 			<CustomHead title={event.title} />
 			<EventSummary title={event.title} />
 			<EventLogistics
@@ -18,6 +19,7 @@ function EventDetails({ event }) {
 				location={event.location}
 			/>
 			<EventContent content={event.description} />
+			<AllComments id={event.id} />
 		</div>
 	);
 }
